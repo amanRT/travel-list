@@ -21,7 +21,6 @@ function Logo() {
 function Form() {
   function handelSubmit(e) {
     e.preventDefault();
-    console.log(e);
   }
   return (
     <form className="add-form" onSubmit={handelSubmit}>
