@@ -6,7 +6,7 @@ const initialItems = [
   { id: 3, description: "Charger", quantity: 1, packed: true },
 ];
 export default function App() {
-  const [items, setItems] = useState(initialItems);
+  const [items, setItems] = useState([]);
   function handelAddItems(item) {
     setItems((items) => [...items, item]);
   }
@@ -29,7 +29,7 @@ export default function App() {
         onDeleteItem={handelDeleteItem}
         onToggleItem={handelToggleItem}
       />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
@@ -114,10 +114,25 @@ function Item({ item, onDeleteItem, onToggleItem }) {
   );
 }
 
-function Stats() {
+function Stats({ items }) {
+  if (!items.length) {
+    return (
+      <footer className="stats">
+        <em>Start adding some item to your packing list🚀</em>
+      </footer>
+    );
+  }
+  const numItems = items.length;
+  const packedLength = items.filter((item) => item.packed).length;
+  const percentage = Math.round((packedLength / numItems) * 100);
   return (
     <footer className="stats">
-      <em>🧳 You have X items on your list,and you already packed X (X%)</em>
+      <em>
+        {percentage === 100
+          ? "You got everything, Ready to go ✈️"
+          : ` 🧳 You have ${numItems} items on your list,and you already packed
+        ${packedLength} (${percentage}%)`}
+      </em>
     </footer>
   );
 }
